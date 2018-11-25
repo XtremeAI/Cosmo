@@ -1,16 +1,83 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
+  [SerializeField] float _moveSpeed = 10;
+  [SerializeField] float _laserSpeed = 20;
+  [SerializeField] float _laserFiringPeriod = 0.2f;
+	[SerializeField] float _laserLifeTime = 2f;
+
+
+  [SerializeField] GameObject _laserPrefab;
+  private float xMin;
+  private float xMax;
+  private float yMin;
+  private float yMax;
+  private float spriteSizeX;
+  private float spriteSizeY;
+  private float projectileSpeed;
+
+  Coroutine firingCoroutine;
+
+  // Use this for initialization
+  void Start () {
+		SetupMoveBoundaries();
+
+		 
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+  private void SetupMoveBoundaries()
+  {
+		var spriteComponent = GetComponent<SpriteRenderer>();
+    spriteSizeX = spriteComponent.size.x;
+    spriteSizeY = spriteComponent.size.y;
+
+    Camera gameCamera = Camera.main;
+    xMin = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x + spriteSizeX / 2;
+    xMax = gameCamera.ViewportToWorldPoint(new Vector3(1, 0, 0)).x - spriteSizeX / 2;
+    yMin = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).y + spriteSizeY / 2;
+    yMax = gameCamera.ViewportToWorldPoint(new Vector3(0, 1, 0)).y - spriteSizeY / 2;
+  }
+
+  // Update is called once per frame
+  void Update () {
+		Move();
+		Fire();
 	}
+
+  private void Fire()
+  {
+    if (Input.GetButtonDown("Fire1")) {
+      firingCoroutine = StartCoroutine(FireContinuously());
+    }
+		if (Input.GetButtonUp("Fire1")) {
+			StopCoroutine(firingCoroutine);
+		}
+  }
+
+  IEnumerator FireContinuously()
+  {
+		while (true) {
+			GameObject laser = Instantiate(_laserPrefab, transform.position, Quaternion.identity).gameObject;
+			var laserVelocity = new Vector2(0, _laserSpeed);
+			laser.GetComponent<Rigidbody2D>().velocity = laserVelocity;
+			Destroy(laser, _laserLifeTime);
+			yield return new WaitForSeconds(_laserFiringPeriod);
+		}
+  }
+
+  private void Move()
+  {
+
+    var deltaX = Input.GetAxis("Horizontal") * Time.deltaTime * _moveSpeed;
+    var deltaY = Input.GetAxis("Vertical") * Time.deltaTime * _moveSpeed;
+
+    var newXPos = Mathf.Clamp((transform.position.x + deltaX), xMin, xMax);
+    var newYPos = Mathf.Clamp((transform.position.y + deltaY), yMin, yMax);
+		var newPosition = new Vector2(newXPos, newYPos);
+		transform.position = newPosition;
+  }
 }
