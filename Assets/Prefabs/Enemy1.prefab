@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212796443847980382}
   - component: {fileID: 114464005975701910}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Enemy1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,7 +35,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1843925332660210}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 6.93, z: 0}
+  m_LocalPosition: {x: 0.045353662, y: 8.322365, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -52,10 +52,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89bd5cfb3c1a3a449913705182e09370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _wayPoints:
-  - {fileID: 4904666466268292, guid: a62c66278024f114585f6bda7db14849, type: 2}
-  - {fileID: 4008987132648380, guid: a62c66278024f114585f6bda7db14849, type: 2}
-  - {fileID: 4543952266464582, guid: a62c66278024f114585f6bda7db14849, type: 2}
 --- !u!212 &212796443847980382
 SpriteRenderer:
   m_ObjectHideFlags: 1
