@@ -20,8 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4944860157918290}
   - component: {fileID: 212796443847980382}
+  - component: {fileID: 114414697627896912}
   - component: {fileID: 114464005975701910}
-  m_Layer: 0
+  - component: {fileID: 60413655855760724}
+  m_Layer: 9
   m_Name: Enemy2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35,12 +37,68 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1843925332660210}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.045353662, y: 8.322365, z: 0}
+  m_LocalPosition: {x: 0.410636, y: -3.732396, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!60 &60413655855760724
+PolygonCollider2D:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1843925332660210}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.82, y: 0.84}
+    newSize: {x: 0.93, y: 0.84}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.19726683, y: 0.43629265}
+      - {x: -0.40594947, y: 0.29759598}
+      - {x: -0.40189895, y: -0.21228266}
+      - {x: -0.12088874, y: -0.41999984}
+      - {x: 0.13228256, y: -0.41999984}
+      - {x: 0.41000003, y: -0.21379781}
+      - {x: 0.41000003, y: 0.3059492}
+      - {x: 0.18683809, y: 0.43620205}
+--- !u!114 &114414697627896912
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1843925332660210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b72f771d8e813ee4abf9fb7d99527e1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 100
+  _minTimeBetweenShots: 0.2
+  _maxTimeBetweenShots: 2
+  _rndTimeBetweenShots: 0
+  _laserVelocity: -6
+  _laserLifeTime: 5
+  _explosionLifeTime: 0.3
+  _laserPrefab: {fileID: 1464829424075466, guid: 2a54d75df57cd5a44bfa6e3a8206ba00,
+    type: 2}
+  _laserSound: {fileID: 8300000, guid: b899fa2ea2c8e934894364a522017822, type: 3}
+  _explosionPrefab: {fileID: 1337682554903946, guid: 701bf53e44ededd45b6a10337df166a0,
+    type: 2}
+  _explosionSound: {fileID: 8300000, guid: 603c02d0af907e64b927356f1eea7079, type: 3}
 --- !u!114 &114464005975701910
 MonoBehaviour:
   m_ObjectHideFlags: 1

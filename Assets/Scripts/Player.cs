@@ -6,13 +6,16 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
   [SerializeField] float _moveSpeed = 10;
+	[SerializeField] int _health = 700;
   [SerializeField] float _laserSpeed = 20;
   [SerializeField] float _laserFiringPeriod = 0.2f;
 	[SerializeField] float _laserLifeTime = 2f;
-
-
-  [SerializeField] GameObject _laserPrefab;
-  private float xMin;
+	  [SerializeField] GameObject _laserPrefab;
+  [SerializeField] AudioClip _laserSound;
+  [SerializeField] float _explosionLifeTime = 1f;
+  [SerializeField] GameObject _explosionPrefab;
+  [SerializeField] AudioClip _explosionSound;
+	private float xMin;
   private float xMax;
   private float yMin;
   private float yMax;
@@ -65,6 +68,10 @@ public class Player : MonoBehaviour {
 			var laserVelocity = new Vector2(0, _laserSpeed);
 			laser.GetComponent<Rigidbody2D>().velocity = laserVelocity;
 			Destroy(laser, _laserLifeTime);
+
+      // Audio
+      AudioSource.PlayClipAtPoint(_laserSound, laser.transform.position);
+			
 			yield return new WaitForSeconds(_laserFiringPeriod);
 		}
   }
@@ -80,4 +87,40 @@ public class Player : MonoBehaviour {
 		var newPosition = new Vector2(newXPos, newYPos);
 		transform.position = newPosition;
   }
+
+  private void OnTriggerEnter2D(Collider2D other)
+  {
+    DamageDealer damageDealer = other.GetComponent<DamageDealer>();
+
+    if (damageDealer != null)
+    {
+      if (!damageDealer.IsPlayerOrigin())
+      {
+        ProcessHit(damageDealer);
+      }
+    }
+  }
+
+  private void ProcessHit(DamageDealer damageDealer)
+  {
+    _health -= damageDealer.GetDamage();
+    damageDealer.Hit();
+    if (_health <= 0)
+    {
+      GameObject explosionObj = Instantiate(
+        _explosionPrefab,
+        transform.position,
+        Quaternion.identity
+      );
+
+      Destroy(explosionObj, _explosionLifeTime);
+
+      // Audio
+      AudioSource.PlayClipAtPoint(_explosionSound, transform.position);
+
+
+			Destroy(gameObject);
+    }
+  }
+
 }
