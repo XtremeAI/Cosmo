@@ -10,7 +10,7 @@ public class Player : MonoBehaviour {
   [SerializeField] float _laserSpeed = 20;
   [SerializeField] float _laserFiringPeriod = 0.2f;
 	[SerializeField] float _laserLifeTime = 2f;
-	  [SerializeField] GameObject _laserPrefab;
+	[SerializeField] GameObject _laserPrefab;
   [SerializeField] AudioClip _laserSound;
   [SerializeField] float _explosionLifeTime = 1f;
   [SerializeField] GameObject _explosionPrefab;
@@ -118,9 +118,17 @@ public class Player : MonoBehaviour {
       // Audio
       AudioSource.PlayClipAtPoint(_explosionSound, transform.position);
 
-
-			Destroy(gameObject);
+      GetComponent<SpriteRenderer>().enabled = false;
+      GetComponent<Collider2D>().enabled = false;
+      StartCoroutine(DieDelay());
     }
+  }
+
+	IEnumerator DieDelay() {
+		yield return new WaitForSeconds(2f);
+    Destroy(gameObject);
+    SceneLoader loader = new SceneLoader();
+    loader.LoadNextScene();
   }
 
 }
