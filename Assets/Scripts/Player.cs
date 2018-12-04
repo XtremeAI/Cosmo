@@ -126,9 +126,7 @@ public class Player : MonoBehaviour {
 
 	IEnumerator DieDelay() {
 		yield return new WaitForSeconds(2f);
-    Destroy(gameObject);
-    SceneLoader loader = new SceneLoader();
-    loader.LoadNextScene();
+		FindObjectOfType<SceneLoader>().LoadNextScene();
   }
 
 }
