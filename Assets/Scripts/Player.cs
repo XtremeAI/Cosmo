@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
@@ -15,6 +16,8 @@ public class Player : MonoBehaviour {
   [SerializeField] float _explosionLifeTime = 1f;
   [SerializeField] GameObject _explosionPrefab;
   [SerializeField] AudioClip _explosionSound;
+  [SerializeField] Text _textHealth;
+  [SerializeField] Text _textScore;
 	private float xMin;
   private float xMax;
   private float yMin;
@@ -25,12 +28,20 @@ public class Player : MonoBehaviour {
 
   Coroutine firingCoroutine;
 
-  // Use this for initialization
-  void Start () {
-		SetupMoveBoundaries();
+  SessionState _sessionState = SessionState.Instance;
 
-		 
-	}
+  // Use this for initialization
+  void Start ()
+  {
+    SetupMoveBoundaries();
+    UpdateTextFields();
+  }
+
+  private void UpdateTextFields()
+  {
+    _textHealth.text = _health.ToString();
+    _textScore.text = _sessionState.Score.ToString();
+  }
 
   private void SetupMoveBoundaries()
   {
@@ -49,6 +60,7 @@ public class Player : MonoBehaviour {
   void Update () {
 		Move();
 		Fire();
+		UpdateTextFields();
 	}
 
   private void Fire()
@@ -118,15 +130,10 @@ public class Player : MonoBehaviour {
       // Audio
       AudioSource.PlayClipAtPoint(_explosionSound, transform.position);
 
-      GetComponent<SpriteRenderer>().enabled = false;
-      GetComponent<Collider2D>().enabled = false;
-      StartCoroutine(DieDelay());
+      UpdateTextFields(); 
+      gameObject.SetActive(false);
+
+  		FindObjectOfType<SceneLoader>().LoadDelayedGameOver();
     }
   }
-
-	IEnumerator DieDelay() {
-		yield return new WaitForSeconds(2f);
-		FindObjectOfType<SceneLoader>().LoadNextScene();
-  }
-
 }

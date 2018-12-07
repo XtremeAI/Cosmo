@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
   [SerializeField] int _health = 100;
+  [SerializeField] int _value = 183;
   [SerializeField] float _minTimeBetweenShots = 0.2f;
   [SerializeField] float _maxTimeBetweenShots = 2f;
   [SerializeField] float _rndTimeBetweenShots;
@@ -13,6 +14,8 @@ public class Enemy : MonoBehaviour {
   [SerializeField] AudioClip _laserSound;
   [SerializeField] GameObject _explosionPrefab;
   [SerializeField] AudioClip _explosionSound;
+
+  SessionState _sessionState = SessionState.Instance;
 
   private void Start() {
     Reload();
@@ -71,6 +74,7 @@ public class Enemy : MonoBehaviour {
     if (_health <= 0)
     {
       Explode();
+      _sessionState.AddScore(_value);
     }
   }
 
